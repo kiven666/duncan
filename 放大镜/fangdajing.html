@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>放大镜</title>
+	<script src='jquery-1.12.0.js'></script>
+	<style>
+        .pic_area{width:482px;position: relative;}
+        .showBigPic{width:480px;height:480px;display:none;border:1px solid #000;overflow: hidden;position:absolute;left:500px;top:0;z-index: 100;}
+		.pic_area .showBigPic img{width:960px;height:960px;position: absolute;}
+        .pic_area .dragPop{width:240px;height:240px;display:none;position: absolute;z-index:100;top:0px;background: rgba(0,0,0,.2);}
+        .pic_area .pop{width:480px;height:480px;position: absolute;top:0;left:0;z-index: 102;}
+        .pic_area .bigpic{width: 480px;height:480px;border:1px solid #eaeaea;display: block;}
+	</style>
+	
+</head>
+
+
+<body>
+	<div class="pic_area">
+		<img src="img/mainpic_01.jpg" class="bigpic">
+		<div class="showBigPic"><img src="img/main_pig_big01.jpg"></div>
+		<div class="pop"></div>
+		<div class="dragPop"></div>
+	</div>
+</body>
+<script>
+		var $bigPic = $('.bigpic');                  //展示的图片
+		var $showBigPic = $('.showBigPic');			 //放大图的显示区域
+		var $bigerPic = $showBigPic.find('img');      //放大图
+		var $dragPop = $('.dragPop');                 //需放大区域的遮罩层
+		var multiple = $showBigPic.width()/$dragPop.width();      //放大区域与遮罩层倍数
+		var index;      
+	
+		//鼠标滑动时放大
+		$('.pop').mousemove(function(e){
+			$dragPop.css('display','block');
+			$showBigPic.css('display','block');
+	    	//获取坐标的方法
+	   		var iX = e.pageX - $(this).offset().left - $dragPop.width()/2,
+	   			iY = e.pageY - $(this).offset().top - $dragPop.height()/2,	
+	   			MaxX = $(this).width()-$dragPop.width(),
+	   			MaxY = $(this).height()-$dragPop.height();
+			//放大区域遮罩层防止跑出图片区域		
+	   		iX = iX > 0 ? iX : 0;
+	   		iX = iX < MaxX ? iX : MaxX;
+	   		iY = iY > 0 ? iY : 0;
+	   		iY = iY < MaxY ? iY : MaxY;
+	
+		   	$dragPop.css({left:iX+'px',top:iY+'px'});	   		//遮罩层定位
+		   	//放大区域的放大显示定位
+		   	$bigerPic.css({left:-multiple*iX+'px',top:-multiple*iY+'px'});   
+		   	//return false;
+		}).mouseout(function(){
+		   	$dragPop.hide();
+			$showBigPic.hide();
+		});
+	</script>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组方法 切图效果</title>
+</head>
+
+<style>
+    div{
+        width:300px;
+        height:350px;
+        overflow: hidden;
+    }
+    img{
+        width:300px;
+        height:350px;
+    }
+
+</style>
+    
+    <script>
+
+
+    window.onload = function(){
+
+        var oImgs = document.getElementsByTagName("img");
+        var aClick = document.getElementsByTagName("a");
+
+        //把图片的路径放到数组中
+        var arr = ["images/mv1.jpg","images/mv2.jpg","images/mv3.jpg","images/mv4.jpg","images/mv5.jpg"];
+
+        aClick[0].onclick = function(){
+
+            //把数组最后一张  移出来    然后把移出来的图片添加到数组最前面
+            arr.unshift(arr.pop());     //关键步骤
+
+            for(var i=0;i<oImgs.length;i++){
+                oImgs[i].src = arr[i];
+            }
+            return false;   //阻止默认行为
+        }
+
+        aClick[1].onclick = function(){
+
+            //把数组第一张  移出来    然后把移出来的图片添加到数组最后面
+            arr.push(arr.shift());
+
+            for(var i=0;i<oImgs.length;i++){
+                oImgs[i].src = arr[i];
+            }
+            return false;
+        }
+    }
+
+    </script>
+
+<body>
+    <a href="#">上一张</a>
+    <div>
+        <img src="images/mv1.jpg" alt="">
+        <img src="images/mv2.jpg" alt="">
+        <img src="images/mv3.jpg" alt="">
+        <img src="images/mv4.jpg" alt="">
+        <img src="images/mv5.jpg" alt="">     
+    </div>
+     <a href="#">下一张</a>
+</body>
+</html>
